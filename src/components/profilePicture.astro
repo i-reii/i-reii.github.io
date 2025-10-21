@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import rei from "@assets/rei.png";
+---
+
+<a href="">
+	<Image
+		src={rei}
+		alt="My pfp"
+		width={500}
+		fetchpriority="high"
+		widths={[240, 540, 720, rei.width]}
+		sizes={`(max-width: 360px) 240px, (max-width: 720px) 152px, (max-width: 1600px) 152px, ${rei.width}px`}
+	/>
+</a>
+<style>
+	img {
+		width: 7.2em;
+		height: 7.2em;
+		margin-top: 2em;
+		border-radius: 8px;
+		opacity: 100%;
+		transition: all 0.25s cubic-bezier(0.17, 0.85, 0.29, 0.95);
+	}
+
+	@media (max-width: 768px) {
+		img {
+			height: 6em;
+			width: 6em;
+			margin-top: 5em;
+			margin-left: -6.25em;
+		}
+	}
+	img:hover {
+		opacity: 40%;
+	}
+</style>

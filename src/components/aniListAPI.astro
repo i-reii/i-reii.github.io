@@ -1,0 +1,76 @@
+---
+import ScrollingGrid from "@components/scrollingGrid.astro";
+---
+
+<ScrollingGrid height="14rem" id="anilist-grid" />
+
+<script>
+	import type { AnilistActivity } from "types";
+	import { ANILIST_USER } from "../constants";
+	import { gql } from "graphql-tag";
+
+	function makeDisplayFromActivity(
+		activity: AnilistActivity,
+	): HTMLAnchorElement {
+		const container = document.createElement("a");
+		const art = document.createElement("img");
+		const progress = document.createElement("p");
+		const title = document.createElement("sub");
+		container.href = activity.media.siteUrl;
+		art.src = activity.media.coverImage.extraLarge;
+		progress.textContent = [activity.status, activity.progress]
+			.filter((i) => i)
+			.join(" ");
+		progress.style = "text-transform: capitalize;";
+		title.textContent = activity.media.title.romaji;
+		container.append(art, progress, title);
+		return container;
+	}
+
+	document.addEventListener("astro:page-load", () => {
+		const grid = document.getElementById("anilist-grid");
+		if (!grid) return;
+		fetch("https://graphql.anilist.co", {
+			method: "POST",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({
+				query: gql`
+					query ($userId: Int) {
+						Page(perPage: 5) {
+							activities(
+								userId: $userId
+								type: MEDIA_LIST
+								sort: ID_DESC
+							) {
+								... on ListActivity {
+									media {
+										siteUrl
+										title {
+											romaji
+										}
+										coverImage {
+											extraLarge
+										}
+										type
+									}
+									status
+									progress
+									createdAt
+								}
+							}
+						}
+					}
+				`.loc!.source.body,
+				variables: { userId: ANILIST_USER },
+			}),
+		})
+			.then((response) => response.json())
+			.then((jsonData) => {
+				const activities: AnilistActivity[] =
+					jsonData.data.Page.activities;
+				activities
+					.map(makeDisplayFromActivity)
+					.forEach((activity) => grid.append(activity));
+			});
+	});
+</script>

@@ -1,0 +1,18 @@
+---
+import Card from "./card.astro";
+
+const { title, href } = Astro.props;
+const currentPage = Astro.url.pathname;
+---
+
+<Card
+	padding="0.5em 0.8em"
+	href={currentPage !== href && href}
+	hoverable
+	clickable
+	draggable={false}
+	variant={currentPage == href ? "accent" : "border"}
+>
+	{title}
+</Card>
+

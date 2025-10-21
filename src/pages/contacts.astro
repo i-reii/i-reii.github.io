@@ -1,0 +1,53 @@
+---
+import Discord from "@assets/icons/brands/discord.svg";
+import Card from "@components/card.astro";
+import Layout from "@layouts/Layout.astro";
+
+const links = [
+	{
+		href: "discord.gg/VAXSqVhedA",
+		title: "Discord",
+		icon: Discord,
+	},
+];
+---
+
+<Layout
+	title="<mark>Contact me</mark>"
+	subtitle="Platforms where you can contact me"
+>
+
+	<div>
+		{
+			links.map(({ href, title, icon: Icon }) => (
+				<Card
+					padding="0.4rem 1.4rem"
+					href={`https://${href}`}
+					title={title}
+					clickable
+					hoverable
+					draggable={false}
+				>
+					<Icon
+						width={30}
+						height={30}
+						fill="light-dark(black, white)"
+					/>
+				</Card>
+			))
+		}
+	</div>
+</Layout>
+<style>
+	div {
+		display: flex;
+		gap: 1rem;
+		margin: auto;
+		max-width: 520px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.card {
+		display: flex;
+	}
+</style>

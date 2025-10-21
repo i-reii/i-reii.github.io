@@ -1,0 +1,35 @@
+---
+import AniListAPI from "@components/aniListAPI.astro";
+import Layout from "@layouts/Layout.astro";
+import Grid from "@components/grid.astro";
+import GridItem from "@components/gridItem.astro";
+---
+
+<Layout
+	title="hi, i'm <mark>rei!</mark>"
+	subtitle="15 years old, Türkiye"
+>
+	<sub>
+		I'm just a normal person who listens to music and watches anime every once in a while.
+	</sub>
+	<hr />
+	<section>
+		<h3>Recent Anime</h3>
+		<AniListAPI />
+		<sub>
+			You can find more on my
+			<a class="link" href="https://anilist.co/user/imreii/"
+				>AniList</a
+			>
+		</sub>
+	</section>
+
+	<Grid title="Projects">
+		<GridItem />
+		<GridItem />
+		<GridItem />
+		<GridItem />
+	</Grid>
+	<Grid title=" ">
+	</Grid>	
+</Layout>
